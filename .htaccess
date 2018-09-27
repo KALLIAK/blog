@@ -1,0 +1,11 @@
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule .* index.php?querystring=$0 [QSA]
+
+<FilesMatch \.(php)$ >
+    Deny from all
+</FilesMatch>
+
+<FilesMatch index.(php)$ >
+    Allow from all
+</FilesMatch>
