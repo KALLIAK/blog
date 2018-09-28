@@ -1,10 +1,21 @@
 <?php
-include_once './models/authorization.php';
-include_once './models/news.php';
+use core\DB;
+use core\Auth;
+use models\NewsModel;
+use models\UsersModel;
+
 include_once './models/common.php';
-define('ROOT', '/php1/day6/blog_mvc');
+define('ROOT', '/blog');
+define('CLASS_DIR', '');
+set_include_path(__DIR__ . DIRECTORY_SEPARATOR . CLASS_DIR . PATH_SEPARATOR. get_include_path());
+spl_autoload_extensions('.class.php');
+spl_autoload_register();
 
 session_start();
+$db = DB::connect();
+$news = new NewsModel($db);
+$auth = new Auth(new UsersModel($db));
+$menu = $auth->menu();
 $err404 = false;
 
 $params = explode('/', $_GET['querystring']);
@@ -24,7 +35,7 @@ if (!check_controller($controller) || !file_exists("./controllers/$controller.ph
 if ($err404) {
     $page_title = 'Ошибка 404';
     $inner = template('v_err404');
-    $menu = menu();
+    $menu = $auth->menu();
 }
 
 echo template('v_main', [

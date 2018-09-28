@@ -1,6 +1,6 @@
 <?php
-$isAuth = isAuthorized();
-$menu = menu();
+$isAuth = $auth->isAuthorized();
+
 $page_title = 'Редактирование новости';
 
 if ($isAuth === false) {
@@ -14,7 +14,7 @@ $id = $params[1] ?? null;
 if ($id === null || !preg_match('/^[1-9]\d*$/', $id)) {
     $err404 = true;
 } else {
-    $message = news_by_id($id);
+    $message = $news->getById($id);
     if (empty($message)) {
         $err404 = true;
     }
@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($title === '' || $content === '') {
         last_error('Заполните все поля');
     } else {
-        news_edit($id, $title, $content);
+        $news->edit($id, $title, $content);
         header('Location: ' . ROOT . '/home');
         exit();
     }

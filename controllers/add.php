@@ -1,6 +1,6 @@
 <?php
-$isAuth = isAuthorized();
-$menu = menu();
+$isAuth = $auth->isAuthorized();
+
 $page_title = 'Добавление новости';
 
 if ($isAuth === false) {
@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($title == '' || $content == '') {
         last_error('Заполните все поля');
     } else {
-        news_add($title, $content);
+        $news->add($title, $content);
         header('Location: ' . ROOT . '/home');
         exit();
     }

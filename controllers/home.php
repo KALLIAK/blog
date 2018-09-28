@@ -1,7 +1,6 @@
 <?php
-$isAuth = isAuthorized();
-$messages = news_all();
-$menu = menu();
+$isAuth = $auth->isAuthorized();
+$messages = $news->getAll();
 $page_title = 'Главная';
 
 if ($isAuth === true) {
